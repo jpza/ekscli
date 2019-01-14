@@ -6,7 +6,7 @@ from moto import mock_cloudformation, mock_ec2, mock_sts
 from troposphere import Output
 
 import ekscli
-from ekscli.stack import ClusterInfo, NodeGroup, ControlPlane, KubeConfig
+from ekscli.stack import ClusterInfo, ControlPlane, KubeConfig
 from ekscli.utils import Status
 
 cluster_endpoint = 'https://test.sk1.us-east-1.eks.amazonaws.com'
@@ -30,7 +30,7 @@ def skip_configmap(kubeconf, role):
 def test_create_control_plane():
     cp = ControlPlane('poc', role='eks-test')
     ci = cp.create()
-    assert ControlPlane.RESOURCE_EKS_VPC.status == Status.created
+    assert ControlPlane.RESOURCE_EKS_VPC.status == Status.not_exist
     assert ci is not None
     assert ci.name == 'poc'
     assert ci.endpoint == cluster_endpoint
